@@ -1,0 +1,1 @@
+export const API_KEY = "" // get from https://newsapi.org/register
