@@ -1,23 +1,20 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
 import {useFetch} from 'src/library/hooks/fetch';
+import {extractNewsList} from 'src/library/helpers/news-helpers';
+import NewsList from '../ui/news-list';
+import SpinnerView from 'src/library/ui/spinner-view';
 
 const fetchOptions = {
-	path: 'top-headlines'
+  path: 'top-headlines',
 };
 
-export const WelcomeScreen = (props) => {
-	const {data, loading, error} = useFetch(fetchOptions);
-
-	console.log(data);
+export const WelcomeScreen = () => {
+  const {data, loading} = useFetch(fetchOptions);
+  const items = extractNewsList(data);
 
   return (
-    <View style={styles.root}>
-      <Text>{'test'}</Text>
-    </View>
+    <SpinnerView loading={loading}>
+      <NewsList items={items} />
+    </SpinnerView>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {}
-});
