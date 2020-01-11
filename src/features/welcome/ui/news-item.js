@@ -1,12 +1,19 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+
+const styles = StyleSheet.create({
+  image: {
+    height: 100,
+    width: 100,
+  },
+});
 
 const NewsItem = ({title, image, date}) => (
   <View>
     <Text>{title}</Text>
     <Text>{date}</Text>
-    <Image source={{uri: image}} />
+    {image && <Image style={styles.image} source={{uri: image}} />}
   </View>
 );
 
