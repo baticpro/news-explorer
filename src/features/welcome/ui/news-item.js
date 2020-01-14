@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
-import {borderGrayColor, grayColor} from 'src/config/colors';
+import {
+  blackColor,
+  borderGrayColor,
+  grayColor,
+  whiteColor,
+} from 'src/config/colors';
+import {ThemeContext} from 'src/library/context/theme-context';
+import {themeSelector} from 'src/library/helpers/theme-helpers';
 
 const styles = StyleSheet.create({
   date: {
-    color: grayColor,
     paddingTop: 3,
   },
   image: {
@@ -27,19 +33,47 @@ const styles = StyleSheet.create({
   },
 });
 
-const NewsItem = ({title, image, date}) => (
-  <View style={styles.root}>
-    {image && (
-      <View style={styles.left}>
-        <Image style={styles.image} source={{uri: image}} />
+const dark = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-unused-styles
+  date: {
+    color: whiteColor,
+  },
+  // eslint-disable-next-line react-native/no-unused-styles
+  title: {
+    color: whiteColor,
+  },
+});
+
+const light = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-unused-styles
+  date: {
+    color: grayColor,
+  },
+  // eslint-disable-next-line react-native/no-unused-styles
+  title: {
+    color: blackColor,
+  },
+});
+
+const theming = themeSelector({light, dark});
+
+const NewsItem = ({title, image, date}) => {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <View style={styles.root}>
+      {image && (
+        <View style={styles.left}>
+          <Image style={styles.image} source={{uri: image}} />
+        </View>
+      )}
+      <View style={styles.right}>
+        <Text style={[styles.title, theming(theme, 'title')]}>{title}</Text>
+        <Text style={[styles.date, theming(theme, 'date')]}>{date}</Text>
       </View>
-    )}
-    <View style={styles.right}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.date}>{date}</Text>
     </View>
-  </View>
-);
+  );
+};
 
 NewsItem.propTypes = {
   title: PropTypes.string.isRequired,
