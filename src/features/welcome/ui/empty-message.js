@@ -1,10 +1,19 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import styled from 'styled-components';
+
+const Root = styled.View`
+  padding: 10px;
+`;
+
+const Text = styled.Text`
+  font-size: 17px;
+  text-align: center;
+`;
 
 const EmptyMessage = () => (
-  <View>
+  <Root>
     <Text>{'no news found'}</Text>
-  </View>
+  </Root>
 );
 
 export default EmptyMessage;
