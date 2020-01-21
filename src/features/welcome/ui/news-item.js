@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   blackColor,
@@ -8,70 +7,46 @@ import {
   whiteColor,
 } from 'src/config/colors';
 import {ThemeContext} from 'src/library/context/theme-context';
-import {themeSelector} from 'src/library/helpers/theme-helpers';
+import styled from 'styled-components';
 
-const styles = StyleSheet.create({
-  date: {
-    paddingTop: 3,
-  },
-  image: {
-    height: 80,
-    marginRight: 10,
-    width: 80,
-  },
-  right: {
-    flex: 1,
-  },
-  root: {
-    borderBottomColor: borderGrayColor,
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    padding: 15,
-  },
-  title: {
-    fontSize: 16,
-  },
-});
+const Root = styled.View`
+  border-bottom-color: ${borderGrayColor};
+  border-bottom-width: 1px;
+  flex-direction: row;
+  padding: 15px;
+`;
 
-const dark = StyleSheet.create({
-  // eslint-disable-next-line react-native/no-unused-styles
-  date: {
-    color: whiteColor,
-  },
-  // eslint-disable-next-line react-native/no-unused-styles
-  title: {
-    color: whiteColor,
-  },
-});
+const NewsImage = styled.Image`
+  height: 80px;
+  margin-right: 10px;
+  width: 80px;
+`;
 
-const light = StyleSheet.create({
-  // eslint-disable-next-line react-native/no-unused-styles
-  date: {
-    color: grayColor,
-  },
-  // eslint-disable-next-line react-native/no-unused-styles
-  title: {
-    color: blackColor,
-  },
-});
+const TitleWrapper = styled.View`
+  flex: 1;
+`;
 
-const theming = themeSelector({light, dark});
+const Date = styled.Text`
+  padding-top: 3px;
+  color: ${props => (props.theme === 'light' ? grayColor : whiteColor)};
+`;
+
+const Title = styled.Text`
+  font-size: 16px;
+  color: ${props => (props.theme === 'light' ? blackColor : whiteColor)};
+`;
 
 const NewsItem = ({title, image, date}) => {
   const theme = useContext(ThemeContext);
 
   return (
-    <View style={styles.root}>
-      {image && (
-        <View style={styles.left}>
-          <Image style={styles.image} source={{uri: image}} />
-        </View>
-      )}
-      <View style={styles.right}>
-        <Text style={[styles.title, theming(theme, 'title')]}>{title}</Text>
-        <Text style={[styles.date, theming(theme, 'date')]}>{date}</Text>
-      </View>
-    </View>
+    <Root>
+      {image && <NewsImage source={{uri: image}} />}
+      <TitleWrapper>
+        <Title theme={theme}>{title}</Title>
+        <Date theme={theme}>{date}</Date>
+      </TitleWrapper>
+    </Root>
   );
 };
 
