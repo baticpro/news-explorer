@@ -5,6 +5,10 @@ export const extractNewsList = data => {
         title: article.title,
         image: article.urlToImage,
         date: article.publishedAt,
+        content: article.content,
+        tag: article.source.name,
+        url: article.url,
+        description: article.description,
       };
     });
   }

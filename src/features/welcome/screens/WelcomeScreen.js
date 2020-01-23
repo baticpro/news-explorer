@@ -18,3 +18,7 @@ export const WelcomeScreen = () => {
     </SpinnerView>
   );
 };
+
+WelcomeScreen.navigationOptions = {
+  title: 'Main Topics',
+};
