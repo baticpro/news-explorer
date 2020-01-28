@@ -1,4 +1,6 @@
 export const extractNewsList = data => {
+  if (!data) return [];
+
   const {articles = []} = data;
 
   return articles.map(
