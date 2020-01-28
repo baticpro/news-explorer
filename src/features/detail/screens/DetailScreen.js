@@ -27,10 +27,7 @@ const Content = styled.Text`
 `;
 
 export const DetailScreen = ({navigation}) => {
-  const title = navigation.getParam('title');
-  const image = navigation.getParam('image');
-  const description = navigation.getParam('description');
-  const url = navigation.getParam('url');
+  const {title, image, description, url} = navigation.getParam('item', {});
 
   const openInBrowser = async () => {
     const can = await Linking.canOpenURL(url);

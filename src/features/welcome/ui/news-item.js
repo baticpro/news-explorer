@@ -38,17 +38,11 @@ const Title = styled.Text`
   color: ${props => (props.theme === 'light' ? blackColor : whiteColor)};
 `;
 
-const NewsItem = ({title, image, date, description, url, tag, navigation}) => {
+const NewsItem = ({item, navigation}) => {
   const theme = useContext(ThemeContext);
+  const {image, title, date} = item;
 
-  const goToDetail = () =>
-    navigation.navigate('Detail', {
-      title,
-      image,
-      description,
-      tag,
-      url,
-    });
+  const goToDetail = () => navigation.navigate('Detail', {item});
 
   return (
     <Root onPress={goToDetail}>
@@ -62,12 +56,7 @@ const NewsItem = ({title, image, date, description, url, tag, navigation}) => {
 };
 
 NewsItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  url: PropTypes.string,
-  tag: PropTypes.string,
-  description: PropTypes.string,
-  date: PropTypes.string.isRequired,
+  item: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
 };
 
