@@ -20,7 +20,7 @@ const NewsList = ({items}) => {
       {items.length === 0 ? (
         <EmptyMessage />
       ) : (
-        items.map((item, i) => <NewsItem key={i} {...item} />)
+        items.map((item, i) => <NewsItem key={i} item={item} />)
       )}
     </RootScrollView>
   );

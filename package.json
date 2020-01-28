@@ -9,7 +9,9 @@
     "test": "jest",
     "lint": "eslint .",
     "setup": "sh ./scripts/install.sh",
-    "fastlane:ios": "cd ios && fastlane ios beta"
+    "fastlane:ios": "cd ios && fastlane ios beta",
+    "push:ios": "sh ./scripts/push.sh ios",
+    "push:android": "sh ./scripts/push.sh android"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.7.1",
