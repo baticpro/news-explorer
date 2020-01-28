@@ -8,8 +8,9 @@ import {
 } from 'src/config/colors';
 import {ThemeContext} from 'src/library/context/theme-context';
 import styled from 'styled-components';
+import {withNavigation} from 'react-navigation';
 
-const Root = styled.View`
+const Root = styled.TouchableOpacity`
   border-bottom-color: ${borderGrayColor};
   border-bottom-width: 1px;
   flex-direction: row;
@@ -20,6 +21,7 @@ const NewsImage = styled.Image`
   height: 80px;
   margin-right: 10px;
   width: 80px;
+  border-radius: 5px;
 `;
 
 const TitleWrapper = styled.View`
@@ -36,11 +38,14 @@ const Title = styled.Text`
   color: ${props => (props.theme === 'light' ? blackColor : whiteColor)};
 `;
 
-const NewsItem = ({title, image, date}) => {
+const NewsItem = ({item, navigation}) => {
   const theme = useContext(ThemeContext);
+  const {image, title, date} = item;
+
+  const goToDetail = () => navigation.navigate('Detail', {item});
 
   return (
-    <Root>
+    <Root onPress={goToDetail}>
       {image && <NewsImage source={{uri: image}} />}
       <TitleWrapper>
         <Title theme={theme}>{title}</Title>
@@ -51,9 +56,8 @@ const NewsItem = ({title, image, date}) => {
 };
 
 NewsItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string,
-  date: PropTypes.string.isRequired,
+  item: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
-export default NewsItem;
+export default withNavigation(NewsItem);
