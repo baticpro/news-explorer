@@ -5,6 +5,7 @@ import NewsItem from './news-item';
 import {blackColor, whiteColor} from 'src/config/colors';
 import {ThemeContext} from 'src/library/context/theme-context';
 import styled from 'styled-components';
+import {RefreshControl} from 'react-native';
 
 const RootScrollView = styled.ScrollView`
   flex: 1;
@@ -12,12 +13,17 @@ const RootScrollView = styled.ScrollView`
     props.theme === 'light' ? whiteColor : blackColor};
 `;
 
-const NewsList = ({items}) => {
+const NewsList = ({items, refetch, loading}) => {
   const theme = useContext(ThemeContext);
+  const isEmpty = items.length === 0 && !loading;
+
+  const refreshControl = (
+    <RefreshControl refreshing={loading} onRefresh={refetch} />
+  );
 
   return (
-    <RootScrollView theme={theme}>
-      {items.length === 0 ? (
+    <RootScrollView refreshControl={refreshControl} theme={theme}>
+      {isEmpty ? (
         <EmptyMessage />
       ) : (
         items.map((item, i) => <NewsItem key={i} item={item} />)
@@ -28,6 +34,8 @@ const NewsList = ({items}) => {
 
 NewsList.propTypes = {
   items: PropTypes.array.isRequired,
+  refetch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default NewsList;

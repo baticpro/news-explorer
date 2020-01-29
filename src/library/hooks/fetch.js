@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {API_URL, API_KEY, API_COUNTRY} from 'src/config/config';
 
 export const useFetch = ({path, params}) => {
@@ -6,7 +6,7 @@ export const useFetch = ({path, params}) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetching = useCallback(() => {
     const onSuccess = responseData => {
       setData(responseData);
       setLoading(false);
@@ -27,13 +27,19 @@ export const useFetch = ({path, params}) => {
     });
   }, []);
 
-  return {data, loading, error};
+  useEffect(() => {
+    fetching();
+  }, []);
+
+  return {data, loading, error, refetch: fetching};
 };
 
 const loadData = async ({path, params, onSuccess, onError}) => {
   try {
     const d = await fetch(buildUrl(path, params));
     const data = await d.json();
+
+    console.log('fetch');
 
     onSuccess(data);
   } catch (e) {
