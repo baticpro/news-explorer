@@ -2,28 +2,10 @@ import React from 'react';
 import {Linking} from 'react-native';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import MoreButton from '../ui/more-button';
-
-const Title = styled.Text`
-  font-size: 20px;
-  font-weight: bold;
-`;
+import DetailView from '../ui/detail-view';
 
 const Root = styled.View`
-  padding: 10px;
   flex: 1;
-`;
-
-const Image = styled.Image`
-  border-radius: 10px;
-  width: 100%;
-  height: 300px;
-  margin-bottom: 10px;
-`;
-
-const Content = styled.Text`
-  font-size: 17px;
-  padding: 20px 0;
 `;
 
 export const DetailScreen = ({navigation}) => {
@@ -36,10 +18,12 @@ export const DetailScreen = ({navigation}) => {
 
   return (
     <Root>
-      <Image source={{uri: image}} />
-      <Title>{title}</Title>
-      <Content>{description}</Content>
-      <MoreButton onPress={openInBrowser} />
+      <DetailView
+        image={image}
+        description={description}
+        onBrowser={openInBrowser}
+        title={title}
+      />
     </Root>
   );
 };
