@@ -25,3 +25,7 @@ export const extractNewsList = data => {
     },
   );
 };
+
+export const fetchNews = async () => {
+  return {items: []};
+};
