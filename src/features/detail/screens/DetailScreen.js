@@ -3,6 +3,7 @@ import {Linking} from 'react-native';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import MoreButton from '../ui/more-button';
+import {connect} from 'react-redux';
 
 const Title = styled.Text`
   font-size: 20px;
@@ -26,8 +27,8 @@ const Content = styled.Text`
   padding: 20px 0;
 `;
 
-export const DetailScreen = ({navigation}) => {
-  const {title, image, description, url} = navigation.getParam('item', {});
+export const DetailScreenView = ({detailData}) => {
+  const {title, image, description, url} = detailData;
 
   const openInBrowser = async () => {
     const can = await Linking.canOpenURL(url);
@@ -44,9 +45,15 @@ export const DetailScreen = ({navigation}) => {
   );
 };
 
-DetailScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
+DetailScreenView.propTypes = {
+  detailData: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => ({
+  detailData: state.detailReducer.detailData,
+});
+
+export const DetailScreen = connect(mapStateToProps)(DetailScreenView);
 
 DetailScreen.navigationOptions = ({navigation}) => ({
   title: navigation.getParam('tag'),

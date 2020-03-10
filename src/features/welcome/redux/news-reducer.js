@@ -20,5 +20,7 @@ export const newsReducer = (state = initialState, action) => {
         error: true,
         errorData: state.errorData,
       };
+    default:
+      return state;
   }
 };
