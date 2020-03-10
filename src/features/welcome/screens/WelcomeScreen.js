@@ -1,18 +1,36 @@
-import React from 'react';
-import {useFetch} from 'src/library/hooks/fetch';
-import {extractNewsList} from 'src/library/helpers/news-helpers';
+import React, {useEffect} from 'react';
 import NewsList from '../ui/news-list';
+import {getNewsItems} from '../redux/news-actions';
+import {connect} from 'react-redux';
+import {PropTypes} from 'prop-types';
 
-const fetchOptions = {
-  path: 'top-headlines',
+const WelcomeScreenView = ({items, loading, getNewsItems}) => {
+  useEffect(() => {
+    getNewsItems();
+  }, []);
+
+  return <NewsList loading={loading} refetch={getNewsItems} items={items} />;
 };
 
-export const WelcomeScreen = () => {
-  const {data, loading, refetch} = useFetch(fetchOptions);
-  const items = extractNewsList(data);
-
-  return <NewsList loading={loading} refetch={refetch} items={items} />;
+WelcomeScreenView.propTypes = {
+  items: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  getNewsItems: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  items: state.newsReducer.items,
+  loading: state.newsReducer.loading,
+});
+
+const mapDispatchToProps = {
+  getNewsItems,
+};
+
+export const WelcomeScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WelcomeScreenView);
 
 WelcomeScreen.navigationOptions = {
   title: 'Main Topics',
