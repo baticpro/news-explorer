@@ -9,6 +9,8 @@ import {
 import {ThemeContext} from 'src/library/context/theme-context';
 import styled from 'styled-components';
 import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
+import {openDetailAction} from '../../detail/redux/detail-actions';
 
 const Root = styled.TouchableOpacity`
   border-bottom-color: ${borderGrayColor};
@@ -38,11 +40,14 @@ const Title = styled.Text`
   color: ${props => (props.theme === 'light' ? blackColor : whiteColor)};
 `;
 
-const NewsItem = ({item, navigation}) => {
+const NewsItem = ({item, navigation, openDetail}) => {
   const theme = useContext(ThemeContext);
   const {image, title, date} = item;
 
-  const goToDetail = () => navigation.navigate('Detail', {item});
+  const goToDetail = () => {
+    openDetail(item);
+    navigation.navigate('Detail');
+  };
 
   return (
     <Root onPress={goToDetail}>
@@ -58,6 +63,11 @@ const NewsItem = ({item, navigation}) => {
 NewsItem.propTypes = {
   item: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
+  openDetail: PropTypes.func.isRequired,
 };
 
-export default withNavigation(NewsItem);
+const mapDispatchToProps = {
+  openDetail: openDetailAction,
+};
+
+export default withNavigation(connect(null, mapDispatchToProps)(NewsItem));

@@ -1,4 +1,6 @@
-export const extractNewsList = data => {
+import {API_URL, API_KEY, API_COUNTRY} from '../../config/config';
+
+const extractNewsList = data => {
   if (!data) return [];
 
   const {articles = []} = data;
@@ -24,4 +26,22 @@ export const extractNewsList = data => {
       };
     },
   );
+};
+
+const buildUrl = (path, params) => {
+  let url = `${API_URL}/${path}?apiKey=${API_KEY}&country=${API_COUNTRY}`;
+
+  for (let paramName in params) {
+    url += '&' + params[paramName];
+  }
+
+  return url;
+};
+
+export const fetchNews = async () => {
+  const data = await fetch(buildUrl('top-headlines'));
+  const jsonData = await data.json();
+  const items = extractNewsList(jsonData);
+
+  return {items};
 };
